@@ -6,7 +6,7 @@ module.exports={
         password: process.env.SEQUELIZE_PASSWORD,
         database: 'express_socket',
         host: '127.0.0.1',
-        dailect: 'mysql',
+        dialect: 'mysql',
         operatorAliases: false,
     },
     production : {
@@ -14,7 +14,7 @@ module.exports={
         password: process.env.SEQUELIZE_PASSWORD,
         database: 'express_socket',
         host: '127.0.0.1',
-        dailect: 'mysql',
+        dialect: 'mysql',
         operatorAliases: false,
         logging: false
     }

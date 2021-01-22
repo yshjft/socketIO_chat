@@ -4,14 +4,14 @@ const session = require('express-session')
 const morgan = require('morgan')
 const path =require('path')
 require('dotenv').config()
-
+const {sequelize} = require('./models')
 
 const app = express()
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.set('port', process.env.PORT || 8003)
-
+sequelize.sync()
 
 app.use(morgan)
 app.use(express.static(path.join(__dirname, 'public')))
