@@ -3,10 +3,6 @@ const Sequelize = require('sequelize')
 module.exports = class Chat extends Sequelize.Model {
     static init(sequelize){
         return super.init({
-            room:{
-                type: Sequelize.NUMBER,
-                allowNull: false,
-            },
             user:{
                 type: Sequelize.STRING,
                 allowNull: false,

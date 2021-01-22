@@ -8,8 +8,8 @@ module.exports = class Room extends Sequelize.Model {
                 allowNull: false,
             },
             max: {
-                type: Sequelize.NUMBER,
-                allowNull: false,
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: false, 
                 defaultValue: 10,
                 validate: {min: 2}
             },
