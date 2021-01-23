@@ -2,9 +2,11 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const morgan = require('morgan')
+const ColorHash = require('color-hash')
 const path =require('path')
 require('dotenv').config()
 
+const webSocket = require('./socket')
 const pageRouter = require('./routes/page')
 const {sequelize} = require('./models')
 
@@ -20,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(cookieParser(process.env.COOKIE_SECRET))
-app.use(session({
+const sessionMiddleware = session({
     resave: true,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
@@ -28,7 +30,15 @@ app.use(session({
         httpOnly: true,
         secure: false,
     }
-}))
+})
+app.use(sessionMiddleware)
+app.use ((req, res, next)=>{
+    if(!req.session.color){
+        const colorHash =  new ColorHash()
+        req.session.color =  colorHash.hex(req.sessionID)
+    }
+    next()
+})
 
 app.use('/', pageRouter)
 
@@ -45,6 +55,8 @@ app.use((error, req, res, next)=>{
     res.render('error')
 })
 
-app.listen(app.get('port'), ()=>{
+const server = app.listen(app.get('port'), ()=>{
     console.log(app.get('port'), '번 포트에서 대기 중')
 })
+
+webSocket(server, app, sessionMiddleware)
