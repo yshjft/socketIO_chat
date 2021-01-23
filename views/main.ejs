@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('head')%>
+</head>
+<body>
+    <h1>채팅방</h1>
+    <fieldset>
+        <legend>채팅방 목록</legend>
+        <table>
+            <thead>
+                <tr>
+                    <th>방 제목</th>
+                    <th>종류</t></th>
+                    <th>허용 인원</th>
+                    <th>방장</th>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>{room title}</td>
+                        <td>{비밀방 or 공개방}</td>
+                        <td>{xx}</td>
+                        <td>{room owner}</td>
+                        <td>
+                            <button id='enter' data-password='true' data-id='1'>입장</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
+    </fieldset>
+    <a href='/room'>채팅방 생성</a>
+    <script src='../js/main.js'></script>
+</body>
+</html>

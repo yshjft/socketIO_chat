@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('head')%>
+</head>
+<body>
+    <h1>{title}</h1>
+    <a href='/' id='exit-btn'>방나가기</a>
+    <fieldset id='chat-list'>
+        <legend>채팅내용</legend>
+        <div class='system'>
+            <div>{system chat}</div>
+        </div>
+        <div class='mine'>
+            <div>{chat mine}</div>
+            <div>{chat chat}</div>
+        </div>
+        <div class='other'>
+            <div>{chat other}</div>
+            <div>{chat chat}</div>
+        </div>
+    </fieldset>
+    <form id='chat-form'>
+        <input name='chat'/>
+        <button type='submit'>전송</button>
+    </form>
+    <script src='../js/chat.js'></script>
+</body>
+</html>
