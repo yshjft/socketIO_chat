@@ -38,13 +38,12 @@ socket.on('newRoom', (data)=>{
 socket.on('removeRoom', (data)=>{
     document.querySelectorAll('tbody tr').forEach((tr)=>{
         if(tr.dataset.id === data){
-            tr.parendtNode.removeChild(tr)
+            tr.parentNode.removeChild(tr)
         }
     })
 })
 
 function addBtnEvent(e){
-    console.log(123)
     if(e.target.dataset.password === 'true'){
         const password = prompt('비밀번호 입력')
         if(password) location.href = '/room/' + e.target.dataset.id + '?password=' + password

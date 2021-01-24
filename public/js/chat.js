@@ -3,11 +3,10 @@ const socket = io.connect('http://localhost:8003/chat', {
 })
 
 socket.on('join', (data)=>{
-    console.log('join data = ', data)
     let div = document.createElement('div')
     div.classList.add('system')
     let chat = document.createElement('div')
-    div.textContent = data.caht
+    div.textContent = data.chat
     div.appendChild(chat)
     document.querySelector('#chat-list').appendChild(div)
 })

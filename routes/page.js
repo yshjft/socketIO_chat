@@ -34,7 +34,7 @@ router.post('/room', async (req, res, next)=>{
         })
         const io = req.app.get('io')
         io.of('/room').emit('newRoom', newRoom.dataValues)
-        res.redirect(`/room/${newRoom.id}/?password=${req.body.password}`)
+        res.redirect(`/room/${newRoom.id}?password=${req.body.password}`)
     }catch(error){
         console.error(error)
         rnext(error)
@@ -59,12 +59,27 @@ router.get('/room/:id', async(req, res, next)=>{
         }
 
         const chats =  await Chat.findAll({where: {room:  room.id}})
+        console.log('room  = ', room)
         return res.render('chat', {
             title: TITLE,
             room,
             chats,
             user: req.session.color
         })
+    }catch(error){
+        console.error(error)
+        next(error)
+    }
+})
+
+router.delete('/room/:id', async(req, res, next)=>{
+    try{
+        await Room.destroy({where: {id: req.params.id}})
+        await Chat.destroy({where: {room: req.params.id}})
+        res.end()
+        setTimeout(()=>{
+            req.app.get('io').of('/room').emit('removeRoom', req.params.id)
+        }, 2000)
     }catch(error){
         console.error(error)
         next(error)

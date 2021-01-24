@@ -37,17 +37,16 @@ module.exports = (server, app, sessionMiddleware) => {
             socket.leave(roomId)
             const currentRoom = socket.adapter.rooms[roomId]
             const userCount = currentRoom ? currentRoom.length : 0
+
+            console.log('userCount = ', userCount)
             if(userCount === 0){
                 // 방 제거 요청
                 // 구지 axios를 써야할까? 그냥 모델 불러와서 삭제하면 안되나?
-
-                console.log('userCount = ', userCount)
-
-                // axios.delete('http://localhost:8003/room/${roomId}')
-                //     .then(()=>console.log('제거 성공'))
-                //     .catch((error)=>{
-                //         console.error(error)
-                //     })
+                axios.delete(`http://localhost:8003/room/${roomId}`)
+                    .then(()=>console.log('제거 성공'))
+                    .catch((error)=>{
+                        console.error(error)
+                    })
             }else{
                 socket.to(roomId).emit('exit', {
                     user: 'system',

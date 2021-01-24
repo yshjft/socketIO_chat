@@ -22,22 +22,11 @@
                     <div><%= chats[i].chat %></div>
                 </div>
             <% } %>
-        <% } %>
-<!-- 
-        <div class='system'>
-            <div>{system chat}</div>
-        </div>
-        <div class='mine'>
-            <div>{chat mine}</div>
-            <div>{chat chat}</div>
-        </div>
-        <div class='other'>
-            <div>{chat other}</div>
-            <div>{chat chat}</div>
-        </div> -->
+        <% } %> 
     </fieldset>
     <form id='chat-form'>
         <input name='chat'/>
+        <input name='roomId' value='<%=room.id%>' hidden/>
         <button type='submit'>전송</button>
     </form>
     <script src='/socket.io/socket.io.js'></script>
