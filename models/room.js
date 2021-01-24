@@ -13,10 +13,14 @@ module.exports = class Room extends Sequelize.Model {
                 defaultValue: 10,
                 validate: {min: 2}
             },
+            owner: {
+                type: Sequelize.STRING,
+            allowNull: false
+            },
             password: {
                 type: Sequelize.STRING(10),
                 allowNull: true,
-            }
+            },
         }, {
             sequelize,
             timestamps: true,

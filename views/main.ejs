@@ -16,6 +16,30 @@
                     <th>방장</th>
                 </tr>
                 <tbody>
+                    <% for(let i=0; i<rooms.length; i++) { %>
+                        <tr data-id='<%=rooms[i].id%>'>
+                            <td>
+                                <%=rooms[i].title%>
+                            </td>
+                            <td>
+                                <% if(rooms[i].password) { %>
+                                    비밀방
+                                <% } else { %>
+                                    공개방
+                                <% } %>
+                            </td>
+                            <td>
+                                <%=rooms[i].max%>
+                            </td>
+                            <td>
+                                <%=rooms[i].owner%>
+                            </td>
+                            <td>
+                                <button id='enter' data-password='true' 
+                                    data-id='<%=rooms[i].id%>'>입장</button>
+                            </td>
+                        </tr>
+                    <%}%>
                     <tr data-id='1'>
                         <td>{room title}</td>
                         <td>{비밀방 or 공개방}</td>
@@ -31,6 +55,6 @@
     </fieldset>
     <a href='/room'>채팅방 생성</a>
     <script src='../js/main.js'></script>
-    <script src='/socket.iio/socket.io.js'></script>
+    <script src='/socket.io/socket.io.js'></script>
 </body>
 </html>
