@@ -35,26 +35,25 @@
                                 <%=rooms[i].owner%>
                             </td>
                             <td>
-                                <button id='enter' data-password='true' 
-                                    data-id='<%=rooms[i].id%>'>입장</button>
+                                <% if(rooms[i].password) { %>
+                                    <button id='enter' data-password='true' data-id='<%=rooms[i].id%>'>
+                                        입장
+                                    </button>
+                                <% } else { %>
+                                    <button id='enter' data-password='false' data-id='<%=rooms[i].id%>'>
+                                        입장
+                                    </button>
+                                <% } %>
+                                
                             </td>
                         </tr>
                     <%}%>
-                    <tr data-id='1'>
-                        <td>{room title}</td>
-                        <td>{비밀방 or 공개방}</td>
-                        <td>{xx}</td>
-                        <td>{room owner}</td>
-                        <td>
-                            <button id='enter' data-password='true' data-id='1'>입장</button>
-                        </td>
-                    </tr>
                 </tbody>
             </thead>
         </table>
     </fieldset>
     <a href='/room'>채팅방 생성</a>
-    <script src='../js/main.js'></script>
     <script src='/socket.io/socket.io.js'></script>
+    <script src='../js/main.js'></script>
 </body>
 </html>
