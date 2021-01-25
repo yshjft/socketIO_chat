@@ -59,6 +59,7 @@ router.get('/room/:id', async(req, res, next)=>{
         }
 
         const chats =  await Chat.findAll({where: {room:  room.id}})
+        console.log(req.session.color)
         return res.render('chat', {
             title: TITLE,
             room,
@@ -73,8 +74,8 @@ router.get('/room/:id', async(req, res, next)=>{
 
 router.delete('/room/:id', async(req, res, next)=>{
     try{
-        await Room.destroy({where: {id: req.params.id}})
         await Chat.destroy({where: {room: req.params.id}})
+        await Room.destroy({where: {id: req.params.id}})
         res.end()
         setTimeout(()=>{
             req.app.get('io').of('/room').emit('removeRoom', req.params.id)
@@ -87,9 +88,20 @@ router.delete('/room/:id', async(req, res, next)=>{
 
 router.post('/room/:id/chat', async(req, res, next)=>{
     const {chat} =  req.body
+    try{
+        const newChat = await Chat.create({
+            room: req.params.id,
+            user: req.session.color,
+            chat: req.body.chat
+        })
+        const io = req.app.get('io')
 
-    console.log(chat)
-    res.end()
+        io.of('/chat').to(req.params.id).emit('chat', newChat.dataValues)
+        res.end()
+    }catch(error){
+        console.error(error)
+        next(error)
+    }
 })
 
 

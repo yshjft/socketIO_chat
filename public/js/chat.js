@@ -21,9 +21,10 @@ socket.on('exit', (data)=>{
 })
 
 socket.on('chat', (data)=>{
-    let div = documnet.createElement('div')
-    
-    if(data.user  === '#{user}'){
+    let div = document.createElement('div')
+    const user = document.querySelector('#user').value
+
+    if(data.user  === user){
         div.classList.add('mine')
     }else{
         div.classList.add('other')
@@ -37,7 +38,7 @@ socket.on('chat', (data)=>{
     div.appendChild(chat)
 
     div.style.color =  data.user
-    document.querySelectorAll('#chat-list'),appendChild(div)
+    document.querySelector('#chat-list').appendChild(div)
 })
 
 document.querySelector('#chat-form').addEventListener('submit', function(e){
@@ -46,12 +47,12 @@ document.querySelector('#chat-form').addEventListener('submit', function(e){
         let xhr =  new XMLHttpRequest()
         xhr.onload =  function(){
             if(xhr.status === 200){
-                e.target.current.value = ''
+                e.target.chat.value = ''
             }else{
                 console.error(xhr.responseText)
             }
         }
-        xhr.open('POST', '/room/#{room.id}/chat')
+        xhr.open('POST', `/room/${e.target.roomId.value}/chat`)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.send(JSON.stringify({chat: this.chat.value}))
     }
