@@ -26,6 +26,8 @@ module.exports = (server, app, sessionMiddleware) => {
         // roomId 추출
         const roomId = referer.split('/')[referer.split('/').length -1].replace(/\?.+/, '')
         
+        console.log(roomId)
+
         socket.join(roomId)
         socket.to(roomId).emit('join', {
             user: 'system',
@@ -35,6 +37,7 @@ module.exports = (server, app, sessionMiddleware) => {
         socket.on('disconnect', ()=>{
             console.log('===== chat 네임스페이스 접속 해제 =====')
             socket.leave(roomId)
+
             const currentRoom = socket.adapter.rooms[roomId]
             const userCount = currentRoom ? currentRoom.length : 0
 

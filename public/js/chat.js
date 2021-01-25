@@ -10,6 +10,7 @@ socket.on('join', (data)=>{
     div.appendChild(chat)
     document.querySelector('#chat-list').appendChild(div)
 })
+
 socket.on('exit', (data)=>{
     let div = document.createElement('div')
     div.classList.add('system')
@@ -18,6 +19,7 @@ socket.on('exit', (data)=>{
     div.appendChild(chat)
     document.querySelector('#chat-list').appendChild(div)
 })
+
 socket.on('chat', (data)=>{
     let div = documnet.createElement('div')
     

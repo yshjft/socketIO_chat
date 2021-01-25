@@ -59,7 +59,6 @@ router.get('/room/:id', async(req, res, next)=>{
         }
 
         const chats =  await Chat.findAll({where: {room:  room.id}})
-        console.log('room  = ', room)
         return res.render('chat', {
             title: TITLE,
             room,
