@@ -25,8 +25,6 @@ module.exports = (server, app, sessionMiddleware) => {
         const {headers: {referer}} = req
         // roomId 추출
         const roomId = referer.split('/')[referer.split('/').length -1].replace(/\?.+/, '')
-        
-        console.log(roomId)
 
         socket.join(roomId)
         socket.to(roomId).emit('join', {
@@ -38,10 +36,8 @@ module.exports = (server, app, sessionMiddleware) => {
             console.log('===== chat 네임스페이스 접속 해제 =====')
             socket.leave(roomId)
 
-            const currentRoom = socket.adapter.rooms[roomId]
-            const userCount = currentRoom ? currentRoom.length : 0
-
-            console.log('userCount = ', userCount)
+            const currentRoom = socket.adapter.rooms.get(roomId)
+            const userCount = currentRoom ? currentRoom.size : 0
             if(userCount === 0){
                 // 방 제거 요청
                 // 구지 axios를 써야할까? 그냥 모델 불러와서 삭제하면 안되나?
