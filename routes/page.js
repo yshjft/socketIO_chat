@@ -53,8 +53,8 @@ router.get('/room/:id', async(req, res, next)=>{
 
         // 방 목록 가지고 오기
         const {rooms} = io.of('/chat').adapter
-        // io.of('/chat').adapter.rooms[req.params.id] : 방의 소켓 목록을 확인할 수 있다고 한다.
-        if(rooms && rooms[req.params.id] && room.max <= rooms[req.params.id].length){
+        // io.of('/chat').adapter.rooms.get(req.params.id) : 방의 소켓 목록을 확인할 수 있다고 한다.
+        if(rooms && rooms.get(req.params.id) && room.max <= rooms.get(req.params.id).size){
             return res.redirect('/')
         }
 
