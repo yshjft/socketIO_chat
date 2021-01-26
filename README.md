@@ -12,4 +12,17 @@
 
 ### 2. 데이터베이스에서 row 제거시 foreign key 문제
 
+이슈 > await Room.destroy를 먼저 사용했더니 await Chat.destroy가 제대로 사용되지 않았다.
+
+해결 > 이 이슈는 await Chat.destory를 await Room.destroy 보다 먼저 사용하여 해결하였다. 문제의 원인은 chat 테이블이 Room 테이블의 ID를 foreign key로 사용하는 것에 있는 것 같다. Room 테이블의 row가 제거되면 어떻게 할지 아무것도 설정하지 않았기 때문이다.
+
+on delete cascade & on update cascade >
+cascade : 참조되는 테이블에서 데이터를 삭제하거나 수정하면, 참조하는 테이블에서도 삭제와 수정이 같이 이루어진다
+(참고)
+set null : 참조되는 테이블에서 데이터를 삭제하거나 수정하면, 참조하는 테이블의 데이터는 NULL로 변경된다.
+no action : 참조되는 테이블에서 데이터를 삭제하거나 수정해도, 참조하는 테이블의 데이터는 변경되지 않는다.
+
+시퀄라이즈 적요 >
+hasMany에 onDelete: 'CASCADE', hooks: true를 작성해 주었다. 왜 belongsTo에는 onDelete가 적용되지 않는지 모르겠다
+
 ### 3. 데이터베이스 스키마 변경시 데이터배이스 반영 문제

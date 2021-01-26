@@ -30,6 +30,6 @@ module.exports = class Room extends Sequelize.Model {
     }
 
     static associate(db){
-        db.Room.hasMany(db.Chat, {foreignKey: 'room', sourceKey: 'id'})
+        db.Room.hasMany(db.Chat, {foreignKey: 'room', sourceKey: 'id', onDelete: 'CASCADE', hooks: true})
     }
 }

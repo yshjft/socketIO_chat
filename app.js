@@ -17,7 +17,7 @@ app.set('view engine', 'ejs')
 app.set('port', process.env.PORT || 8003)
 
 // {force : true}를 사용하게 될 경우 db 스키마가 변경되면 기존 데이터를 지우고 변경된 스키마를 반영해 준다. (굉장한 주의를 요함)
-sequelize.sync()
+sequelize.sync({force: true})
 
 app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, 'public')))
