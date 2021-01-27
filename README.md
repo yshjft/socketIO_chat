@@ -113,3 +113,52 @@ module.exports = {
 
 #### 의문점 >
 1. 테이블 추가 (테이블 추가에 따른 foreign key 설정 등)
+
+답변 > 
+```
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('Person', {
+      name: Sequelize.DataTypes.STRING,
+      isBetaMember: {
+        type: Sequelize.DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('Person');
+  }
+};
+```
+
+foreign key 가지는 경우
+```
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('Person', {
+      name: Sequelize.DataTypes.STRING,
+      isBetaMember: {
+        type: Sequelize.DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      userId: {
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: {
+            tableName: 'users',
+            schema: 'schema'
+          },
+          key: 'id'
+        },
+        allowNull: false
+      },
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('Person');
+  }
+}
+```
