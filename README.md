@@ -39,11 +39,11 @@ hasMany에 onDelete: 'CASCADE', hooks: true를 작성해 주었다. 왜 belongsT
 #### 다른 방법 > 2. Sequelize 마이그레이션
 그래서 다른 방법을 찾아보니 마이그레이션이라는 방법이 있었다. 사용 방법은 아래와 같다.
 
-1) mirgrations 폴더 생성(사실 sequelize init하면 자동으로 생성된다)
+1 ) mirgrations 폴더 생성(사실 sequelize init하면 자동으로 생성된다)
 
-2) sequelize migration:create --name '사용할 이름'
+2 ) sequelize migration:create --name '사용할 이름'
 
-3) 2번 명령어로 생성된 파일에 아래와 같은 예시로 작성
+3 ) 2번 명령어로 생성된 파일에 아래와 같은 예시로 작성
 
 ex) 컬럼 1개 추가 (User라는 테이블에 nickname이라는 컬럼 추가)
 ```
@@ -61,3 +61,55 @@ module.exports = {
 ```
 up() 메서드 : 새로운 컬럼 추가하는 부분
 down() 메서드 : 추가한 컬럼 삭하는 부분
+
+4-1) sequelize db:migrate --env development
+마이그레이션을 진행하는 명령어이다. 뒤에 env 옵션이다. 위 명령어를 통해 마이그레이션을 진행하게 되면 SequelizeMeta라는 테이블이 데이터베이스에 생성된다. 마이그레이션을 수행하면 그 마이그레이션의 파일명을 SequelizeMeta 테이블에 기록한다. 반대로 마이그래이션을 취소하면 테이블에 해당 파일명을 삭제한다.
+
+4-2) sequelize db:migrate:undo --env development : 마이그레이션 취소
+
+추가 ) 다중 마이그레이션 
+```
+module.exports = {
+  up: function (queryInterface, Sequelize) {
+    return [
+      queryInterface.addColumn("User", "name", {
+        type: Sequelize.STRING,
+      }),
+      queryInterface.addColumn("User", "nickname", {
+        type: Sequelize.STRING,
+      }),
+    ]
+  },
+
+  down: function (queryInterface, Sequelize) {
+    return [
+      queryInterface.removeColumn("Challenges", "name"),
+      queryInterface.removeColumn("Challenges", "nickname"),
+    ]
+  },
+}
+```
+```
+module.exports = {
+  up: function (queryInterface, Sequelize) {
+    var sql = "ALTER TABLE User ADD COLUMN nickname varchar(255) NOT NULL"
+
+    return queryInterface.sequelize.query(sql, {
+      type: Sequelize.QueryTypes.RAW,
+    })
+  },
+
+  down: function (queryInterface, Sequelize) {
+    var sql = "ALTER TABLE User DROP COLUMN nickname"
+
+    return queryInterface.sequelize.query(sql, {
+      type: Sequelize.QueryTypes.RAW,
+    })
+  },
+}
+
+```
+참고 : https://jeonghwan-kim.github.io/sequelize-migration/
+
+#### 의문점 >
+1. 테이블 추가 (테이블 추가에 따른 foreign key 설정 등)
