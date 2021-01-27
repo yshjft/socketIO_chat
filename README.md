@@ -37,3 +37,27 @@ hasMany에 onDelete: 'CASCADE', hooks: true를 작성해 주었다. 왜 belongsT
 가장 간단한 방법이다. 컬럼을 직접 변경 (스키가 정의한 파일을 변경)하면 자동을 데이터 베이스를 갱신해준다. 물론 기존에 있던 데이터는 모두 사라지게 된다. 따라서 서비스 중에는 적합하지 않은 방식이며 굉장히 조심해야하는 옵션이다.
 
 #### 다른 방법 > 2. Sequelize 마이그레이션
+그래서 다른 방법을 찾아보니 마이그레이션이라는 방법이 있었다. 사용 방법은 아래와 같다.
+
+1) mirgrations 폴더 생성(사실 sequelize init하면 자동으로 생성된다)
+
+2) sequelize migration:create --name '사용할 이름'
+
+3) 2번 명령어로 생성된 파일에 아래와 같은 예시로 작성
+
+ex) 컬럼 1개 추가 (User라는 테이블에 nickname이라는 컬럼 추가)
+```
+module.exports = {
+  up: function (queryInterface, Sequelize) {
+    return queryInterface.addColumn("User", "nickname", {
+      type: Sequelize.STRING,
+    })
+  },
+
+  down: function (queryInterface, Sequelize) {
+    return queryInterface.removeColumn("User", "nickname")
+  },
+}
+```
+up() 메서드 : 새로운 컬럼 추가하는 부분
+down() 메서드 : 추가한 컬럼 삭하는 부분
